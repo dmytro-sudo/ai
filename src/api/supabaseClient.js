@@ -1,7 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://placeholder.supabase.co';
-const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'placeholder-key';
+const env = import.meta['env'] || {};
+const supabaseUrl = env.VITE_SUPABASE_URL || 'https://apcudnzuaxaguupvvhux.supabase.co';
+const supabaseKey = env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFwY3Vkbnp1YXhwY3Vkbnp1YXhhZ3V1cHZ2aHV4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2MTMzMDUsImV4cCI6MjA5MTE4OTMwNX0.F62-MWK2P9-mwRigessx2GLEy_NQW3HVEMuvpphKkCQ';
 
 export const supabase = createClient(supabaseUrl, supabaseKey);
 
@@ -25,7 +26,10 @@ export const base44 = {
     logout: async () => supabase.auth.signOut(),
   },
   entities: new Proxy({}, {
-    get: (target, table) => ({
+    get: (target, tableProp) => {
+      if (typeof tableProp !== 'string') return undefined;
+      const table = tableProp;
+      return {
       create: async (data) => {
         const { data: res, error } = await supabase.from(table).insert(data).select().single();
         if (error) { console.error(`Supabase Insert Error (${table}):`, error); throw error; }
@@ -61,8 +65,23 @@ export const base44 = {
         const { data, error } = await req;
         if (error) { console.error(`Supabase Filter Error (${table}):`, error); return []; }
         return data || [];
+      },
+      list: async (sort = '-created_at', limit = 100) => {
+        let req = supabase.from(table).select('*');
+        if (sort) {
+          const field = sort.startsWith('-') ? sort.substring(1) : sort;
+          const dir = sort.startsWith('-');
+          req = req.order(field, { ascending: !dir });
+        }
+        if (limit) {
+          req = req.limit(limit);
+        }
+        const { data, error } = await req;
+        if (error) { console.error(`Supabase List Error (${table}):`, error); return []; }
+        return data || [];
       }
-    })
+      };
+    }
   }),
   functions: {
     invoke: async (funcName, body) => {
