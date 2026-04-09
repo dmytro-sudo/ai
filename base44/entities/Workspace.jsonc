@@ -1,0 +1,219 @@
+{
+  "name": "Workspace",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "title": "Workspace Name"
+    },
+    "slug": {
+      "type": "string",
+      "title": "Slug"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "onboarding",
+        "active",
+        "paused",
+        "archived",
+        "suspended",
+        "trial",
+        "cancelled"
+      ],
+      "default": "onboarding",
+      "title": "Status"
+    },
+    "plan": {
+      "type": "string",
+      "enum": [
+        "starter",
+        "pro",
+        "enterprise"
+      ],
+      "default": "starter",
+      "title": "Plan"
+    },
+    "billing_status": {
+      "type": "string",
+      "enum": [
+        "trial",
+        "active",
+        "paused",
+        "cancelled"
+      ],
+      "default": "trial",
+      "title": "Billing Status"
+    },
+    "setup_fee": {
+      "type": "number",
+      "title": "Setup Fee ($)"
+    },
+    "monthly_price": {
+      "type": "number",
+      "title": "Monthly Price ($)"
+    },
+    "company_name": {
+      "type": "string",
+      "title": "Company Name"
+    },
+    "brand_name": {
+      "type": "string",
+      "title": "Brand Name"
+    },
+    "website": {
+      "type": "string",
+      "title": "Website"
+    },
+    "industry": {
+      "type": "string",
+      "title": "Industry / Niche"
+    },
+    "country": {
+      "type": "string",
+      "title": "Country",
+      "default": "Canada"
+    },
+    "timezone": {
+      "type": "string",
+      "title": "Timezone",
+      "default": "America/Toronto"
+    },
+    "description": {
+      "type": "string",
+      "title": "Business Description"
+    },
+    "contact_name": {
+      "type": "string",
+      "title": "Primary Contact Name"
+    },
+    "owner_email": {
+      "type": "string",
+      "title": "Primary Contact Email"
+    },
+    "contact_phone": {
+      "type": "string",
+      "title": "Contact Phone"
+    },
+    "contact_title": {
+      "type": "string",
+      "title": "Job Title / Position"
+    },
+    "company_summary": {
+      "type": "string",
+      "title": "Company Summary"
+    },
+    "main_services": {
+      "type": "string",
+      "title": "Main Services / Products"
+    },
+    "main_offer": {
+      "type": "string",
+      "title": "Main Offer / USP"
+    },
+    "target_audience": {
+      "type": "string",
+      "title": "Target Audience"
+    },
+    "service_area": {
+      "type": "string",
+      "title": "Geographic Service Area"
+    },
+    "marketing_goal": {
+      "type": "string",
+      "title": "Main Marketing Goal"
+    },
+    "lead_goal": {
+      "type": "string",
+      "title": "Lead Goal / Conversion Goal"
+    },
+    "sales_process": {
+      "type": "string",
+      "title": "Sales Process Notes"
+    },
+    "tone_of_voice": {
+      "type": "string",
+      "title": "Tone of Voice"
+    },
+    "competitors": {
+      "type": "string",
+      "title": "Competitors / Market Position"
+    },
+    "approved_claims": {
+      "type": "string",
+      "title": "Approved Claims"
+    },
+    "forbidden_claims": {
+      "type": "string",
+      "title": "Restricted / Forbidden Claims"
+    },
+    "ai_notes": {
+      "type": "string",
+      "title": "Internal Notes for AI"
+    },
+    "target_cpl": {
+      "type": "string",
+      "title": "Target CPL / KPI"
+    },
+    "monthly_budget": {
+      "type": "number",
+      "title": "Monthly Ad Budget ($)"
+    },
+    "assigned_pm": {
+      "type": "string",
+      "title": "Assigned Project Manager (email)"
+    },
+    "assigned_admin": {
+      "type": "string",
+      "title": "Assigned Internal Admin (email)"
+    },
+    "assigned_support": {
+      "type": "string",
+      "title": "Assigned Support (email)"
+    },
+    "logo_url": {
+      "type": "string",
+      "title": "Logo URL"
+    },
+    "primary_color": {
+      "type": "string",
+      "title": "Brand Color"
+    },
+    "notes": {
+      "type": "string",
+      "title": "Internal Notes"
+    },
+    "is_protected": {
+      "type": "boolean",
+      "title": "Protected (cannot be deleted)",
+      "default": false
+    }
+  },
+  "required": [
+    "name",
+    "status"
+  ],
+  "row_level_security": {
+    "rules": [
+      {
+        "allow": [
+          "super_admin",
+          "internal_admin"
+        ],
+        "if": {}
+      },
+      {
+        "allow": [
+          "workspace_owner",
+          "workspace_admin",
+          "workspace_manager",
+          "workspace_member"
+        ],
+        "if": {
+          "id": "current_workspace_id"
+        }
+      }
+    ]
+  }
+}

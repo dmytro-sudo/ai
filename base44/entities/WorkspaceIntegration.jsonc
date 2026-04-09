@@ -1,0 +1,95 @@
+{
+  "name": "WorkspaceIntegration",
+  "type": "object",
+  "properties": {
+    "workspace_id": {
+      "type": "string",
+      "title": "Workspace ID"
+    },
+    "workspace_name": {
+      "type": "string",
+      "title": "Workspace Name"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "meta_ads",
+        "google_ads",
+        "ghl",
+        "claude_ai",
+        "openai",
+        "stripe",
+        "twilio",
+        "webhook",
+        "other"
+      ],
+      "title": "Integration Type"
+    },
+    "label": {
+      "type": "string",
+      "title": "Label / Name"
+    },
+    "api_key": {
+      "type": "string",
+      "title": "API Key / Token"
+    },
+    "api_secret": {
+      "type": "string",
+      "title": "API Secret"
+    },
+    "account_id": {
+      "type": "string",
+      "title": "Account ID"
+    },
+    "extra_field_1": {
+      "type": "string",
+      "title": "Extra Field 1 (e.g. Pixel ID)"
+    },
+    "extra_field_2": {
+      "type": "string",
+      "title": "Extra Field 2 (e.g. Webhook URL)"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "error",
+        "pending",
+        "disconnected"
+      ],
+      "title": "Status",
+      "default": "pending"
+    },
+    "notes": {
+      "type": "string",
+      "title": "Notes"
+    }
+  },
+  "required": [
+    "workspace_id",
+    "type",
+    "label",
+    "status"
+  ],
+  "row_level_security": {
+    "rules": [
+      {
+        "allow": [
+          "super_admin",
+          "internal_admin"
+        ],
+        "if": {}
+      },
+      {
+        "allow": [
+          "workspace_owner",
+          "workspace_admin",
+          "workspace_manager"
+        ],
+        "if": {
+          "workspace_id": "current_workspace_id"
+        }
+      }
+    ]
+  }
+}

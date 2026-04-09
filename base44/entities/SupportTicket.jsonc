@@ -1,0 +1,83 @@
+{
+  "name": "SupportTicket",
+  "type": "object",
+  "properties": {
+    "workspace_id": {
+      "type": "string",
+      "title": "Workspace ID"
+    },
+    "subject": {
+      "type": "string",
+      "title": "Subject"
+    },
+    "description": {
+      "type": "string",
+      "title": "Description"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "urgent"
+      ],
+      "title": "Priority"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "open",
+        "in_progress",
+        "resolved",
+        "closed"
+      ],
+      "title": "Status"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "billing",
+        "campaign",
+        "technical",
+        "general",
+        "feature_request"
+      ],
+      "title": "Category"
+    },
+    "response": {
+      "type": "string",
+      "title": "Response"
+    }
+  },
+  "required": [
+    "workspace_id",
+    "subject",
+    "description",
+    "priority",
+    "status",
+    "category"
+  ],
+  "row_level_security": {
+    "rules": [
+      {
+        "allow": [
+          "super_admin",
+          "internal_admin"
+        ],
+        "if": {}
+      },
+      {
+        "allow": [
+          "workspace_owner",
+          "workspace_admin",
+          "workspace_manager",
+          "workspace_member"
+        ],
+        "if": {
+          "workspace_id": "current_workspace_id"
+        }
+      }
+    ]
+  }
+}

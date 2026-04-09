@@ -1,0 +1,45 @@
+{
+  "name": "WorkspaceUser",
+  "type": "object",
+  "properties": {
+    "workspace_id": {
+      "type": "string",
+      "title": "Workspace ID"
+    },
+    "user_email": {
+      "type": "string",
+      "title": "User Email"
+    },
+    "role": {
+      "type": "string",
+      "enum": [
+        "workspace_owner",
+        "workspace_admin",
+        "workspace_manager",
+        "workspace_member",
+        "workspace_viewer"
+      ],
+      "title": "Workspace Role",
+      "default": "workspace_member"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "inactive",
+        "pending"
+      ],
+      "default": "active",
+      "title": "Status"
+    },
+    "invited_by": {
+      "type": "string",
+      "title": "Invited By"
+    }
+  },
+  "required": [
+    "workspace_id",
+    "user_email",
+    "role"
+  ]
+}

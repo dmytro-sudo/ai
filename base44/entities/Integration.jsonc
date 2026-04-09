@@ -1,0 +1,73 @@
+{
+  "name": "Integration",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "title": "Integration Name"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "crm",
+        "ad_platform",
+        "analytics",
+        "ecommerce",
+        "other"
+      ],
+      "title": "Type"
+    },
+    "platform": {
+      "type": "string",
+      "title": "Platform"
+    },
+    "api_key": {
+      "type": "string",
+      "title": "API Key"
+    },
+    "api_secret": {
+      "type": "string",
+      "title": "API Secret"
+    },
+    "account_id": {
+      "type": "string",
+      "title": "Account ID"
+    },
+    "pixel_id": {
+      "type": "string",
+      "title": "Pixel / Tag ID"
+    },
+    "webhook_url": {
+      "type": "string",
+      "title": "Webhook URL"
+    },
+    "extra_config": {
+      "type": "string",
+      "title": "Extra Config (JSON)"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "error",
+        "pending",
+        "disconnected"
+      ],
+      "title": "Status"
+    },
+    "last_sync": {
+      "type": "string",
+      "title": "Last Sync"
+    },
+    "notes": {
+      "type": "string",
+      "title": "Notes"
+    }
+  },
+  "required": [
+    "name",
+    "type",
+    "platform",
+    "status"
+  ]
+}

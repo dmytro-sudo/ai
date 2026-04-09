@@ -1,0 +1,98 @@
+{
+  "name": "Report",
+  "type": "object",
+  "properties": {
+    "workspace_id": {
+      "type": "string",
+      "title": "Workspace ID"
+    },
+    "title": {
+      "type": "string",
+      "title": "Report Title"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "daily",
+        "weekly",
+        "monthly"
+      ],
+      "title": "Report Type"
+    },
+    "period_start": {
+      "type": "string",
+      "format": "date",
+      "title": "Period Start"
+    },
+    "period_end": {
+      "type": "string",
+      "format": "date",
+      "title": "Period End"
+    },
+    "total_spent": {
+      "type": "number",
+      "title": "Total Spent"
+    },
+    "total_revenue": {
+      "type": "number",
+      "title": "Total Revenue"
+    },
+    "total_leads": {
+      "type": "number",
+      "title": "Total Leads"
+    },
+    "avg_cpl": {
+      "type": "number",
+      "title": "Average CPL"
+    },
+    "roas": {
+      "type": "number",
+      "title": "ROAS"
+    },
+    "summary": {
+      "type": "string",
+      "title": "AI Summary"
+    },
+    "recommendations": {
+      "type": "string",
+      "title": "AI Recommendations"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "generated",
+        "sent",
+        "read"
+      ],
+      "title": "Status"
+    }
+  },
+  "required": [
+    "workspace_id",
+    "title",
+    "type",
+    "status"
+  ],
+  "row_level_security": {
+    "rules": [
+      {
+        "allow": [
+          "super_admin",
+          "internal_admin"
+        ],
+        "if": {}
+      },
+      {
+        "allow": [
+          "workspace_owner",
+          "workspace_admin",
+          "workspace_manager",
+          "workspace_member"
+        ],
+        "if": {
+          "workspace_id": "current_workspace_id"
+        }
+      }
+    ]
+  }
+}

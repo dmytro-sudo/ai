@@ -1,0 +1,86 @@
+{
+  "name": "ScheduledAction",
+  "type": "object",
+  "properties": {
+    "workspace_id": {
+      "type": "string",
+      "title": "Workspace ID"
+    },
+    "campaign_id": {
+      "type": "string",
+      "title": "Campaign ID"
+    },
+    "campaign_name": {
+      "type": "string",
+      "title": "Campaign Name"
+    },
+    "action_type": {
+      "type": "string",
+      "enum": [
+        "budget_increase",
+        "budget_decrease",
+        "pause",
+        "resume",
+        "bid_change",
+        "audience_update"
+      ],
+      "title": "Action Type"
+    },
+    "scheduled_date": {
+      "type": "string",
+      "format": "date",
+      "title": "Scheduled Date"
+    },
+    "scheduled_time": {
+      "type": "string",
+      "title": "Time (HH:MM)"
+    },
+    "value": {
+      "type": "string",
+      "title": "Value (amount or %)"
+    },
+    "reason": {
+      "type": "string",
+      "title": "Reason / Notes"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "executed",
+        "cancelled",
+        "failed"
+      ],
+      "title": "Status"
+    }
+  },
+  "required": [
+    "workspace_id",
+    "campaign_name",
+    "action_type",
+    "scheduled_date",
+    "status"
+  ],
+  "row_level_security": {
+    "rules": [
+      {
+        "allow": [
+          "super_admin",
+          "internal_admin"
+        ],
+        "if": {}
+      },
+      {
+        "allow": [
+          "workspace_owner",
+          "workspace_admin",
+          "workspace_manager",
+          "workspace_member"
+        ],
+        "if": {
+          "workspace_id": "current_workspace_id"
+        }
+      }
+    ]
+  }
+}

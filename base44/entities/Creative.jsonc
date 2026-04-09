@@ -1,0 +1,118 @@
+{
+  "name": "Creative",
+  "type": "object",
+  "properties": {
+    "workspace_id": {
+      "type": "string",
+      "title": "Workspace ID"
+    },
+    "name": {
+      "type": "string",
+      "title": "Creative Name"
+    },
+    "platform": {
+      "type": "string",
+      "enum": [
+        "Meta Ads",
+        "Google Ads",
+        "Both"
+      ],
+      "title": "Platform"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "image",
+        "video",
+        "carousel",
+        "story",
+        "banner"
+      ],
+      "title": "Format"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending_review",
+        "approved",
+        "active",
+        "rejected",
+        "archived"
+      ],
+      "title": "Status"
+    },
+    "file_url": {
+      "type": "string",
+      "title": "File URL"
+    },
+    "thumbnail_url": {
+      "type": "string",
+      "title": "Thumbnail URL"
+    },
+    "headline": {
+      "type": "string",
+      "title": "Headline"
+    },
+    "description": {
+      "type": "string",
+      "title": "Description"
+    },
+    "cta": {
+      "type": "string",
+      "title": "Call to Action"
+    },
+    "campaign_id": {
+      "type": "string",
+      "title": "Campaign ID"
+    },
+    "impressions": {
+      "type": "number",
+      "title": "Impressions"
+    },
+    "clicks": {
+      "type": "number",
+      "title": "Clicks"
+    },
+    "ctr": {
+      "type": "number",
+      "title": "CTR %"
+    },
+    "conversions": {
+      "type": "number",
+      "title": "Conversions"
+    },
+    "notes": {
+      "type": "string",
+      "title": "Notes for EI"
+    }
+  },
+  "required": [
+    "workspace_id",
+    "name",
+    "platform",
+    "type",
+    "status"
+  ],
+  "row_level_security": {
+    "rules": [
+      {
+        "allow": [
+          "super_admin",
+          "internal_admin"
+        ],
+        "if": {}
+      },
+      {
+        "allow": [
+          "workspace_owner",
+          "workspace_admin",
+          "workspace_manager",
+          "workspace_member"
+        ],
+        "if": {
+          "workspace_id": "current_workspace_id"
+        }
+      }
+    ]
+  }
+}

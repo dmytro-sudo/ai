@@ -1,0 +1,87 @@
+{
+  "name": "Notification",
+  "type": "object",
+  "properties": {
+    "workspace_id": {
+      "type": "string",
+      "title": "Workspace ID"
+    },
+    "title": {
+      "type": "string",
+      "title": "Title"
+    },
+    "message": {
+      "type": "string",
+      "title": "Message"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "alert",
+        "news",
+        "success",
+        "warning",
+        "info"
+      ],
+      "title": "Type"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "billing",
+        "performance",
+        "creative",
+        "campaign",
+        "ai_insight",
+        "system"
+      ],
+      "title": "Category"
+    },
+    "is_read": {
+      "type": "boolean",
+      "title": "Read",
+      "default": false
+    },
+    "action_label": {
+      "type": "string",
+      "title": "Action Label"
+    },
+    "action_url": {
+      "type": "string",
+      "title": "Action URL"
+    },
+    "data": {
+      "type": "object",
+      "title": "Extra Data"
+    }
+  },
+  "required": [
+    "workspace_id",
+    "title",
+    "message",
+    "type",
+    "category"
+  ],
+  "row_level_security": {
+    "rules": [
+      {
+        "allow": [
+          "super_admin",
+          "internal_admin"
+        ],
+        "if": {}
+      },
+      {
+        "allow": [
+          "workspace_owner",
+          "workspace_admin",
+          "workspace_manager",
+          "workspace_member"
+        ],
+        "if": {
+          "workspace_id": "current_workspace_id"
+        }
+      }
+    ]
+  }
+}

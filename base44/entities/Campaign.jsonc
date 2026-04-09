@@ -1,0 +1,114 @@
+{
+  "name": "Campaign",
+  "type": "object",
+  "properties": {
+    "workspace_id": {
+      "type": "string",
+      "title": "Workspace ID"
+    },
+    "name": {
+      "type": "string",
+      "title": "Campaign Name"
+    },
+    "platform": {
+      "type": "string",
+      "enum": [
+        "Meta Ads",
+        "Google Ads"
+      ],
+      "title": "Platform"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "paused",
+        "completed",
+        "draft"
+      ],
+      "title": "Status"
+    },
+    "budget": {
+      "type": "number",
+      "title": "Budget"
+    },
+    "spent": {
+      "type": "number",
+      "title": "Amount Spent"
+    },
+    "impressions": {
+      "type": "number",
+      "title": "Impressions"
+    },
+    "clicks": {
+      "type": "number",
+      "title": "Clicks"
+    },
+    "leads": {
+      "type": "number",
+      "title": "Leads"
+    },
+    "conversions": {
+      "type": "number",
+      "title": "Conversions"
+    },
+    "revenue": {
+      "type": "number",
+      "title": "Revenue"
+    },
+    "cpl": {
+      "type": "number",
+      "title": "Cost Per Lead"
+    },
+    "ctr": {
+      "type": "number",
+      "title": "CTR %"
+    },
+    "roas": {
+      "type": "number",
+      "title": "ROAS"
+    },
+    "audience": {
+      "type": "string",
+      "title": "Target Audience"
+    },
+    "start_date": {
+      "type": "string",
+      "format": "date",
+      "title": "Start Date"
+    },
+    "end_date": {
+      "type": "string",
+      "format": "date",
+      "title": "End Date"
+    }
+  },
+  "required": [
+    "workspace_id",
+    "name",
+    "platform",
+    "status"
+  ],
+  "row_level_security": {
+    "rules": [
+      {
+        "allow": [
+          "super_admin",
+          "internal_admin"
+        ],
+        "if": {}
+      },
+      {
+        "allow": [
+          "workspace_owner",
+          "workspace_admin",
+          "workspace_manager",
+          "workspace_member"
+        ],
+        "if": {
+          "workspace_id": "current_workspace_id"
+        }
+      }
+    ]
+  }
+}

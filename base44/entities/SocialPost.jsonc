@@ -1,0 +1,100 @@
+{
+  "name": "SocialPost",
+  "type": "object",
+  "properties": {
+    "workspace_id": {
+      "type": "string",
+      "title": "Workspace ID"
+    },
+    "title": {
+      "type": "string",
+      "title": "Post Title"
+    },
+    "content": {
+      "type": "string",
+      "title": "Caption / Text"
+    },
+    "platforms": {
+      "type": "array",
+      "title": "Platforms",
+      "items": {
+        "type": "string",
+        "enum": [
+          "instagram",
+          "facebook"
+        ]
+      }
+    },
+    "post_type": {
+      "type": "string",
+      "enum": [
+        "image",
+        "video",
+        "carousel",
+        "text",
+        "reel",
+        "story"
+      ],
+      "title": "Post Type"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "scheduled",
+        "published",
+        "failed"
+      ],
+      "title": "Status"
+    },
+    "scheduled_date": {
+      "type": "string",
+      "format": "date",
+      "title": "Scheduled Date"
+    },
+    "scheduled_time": {
+      "type": "string",
+      "title": "Time (HH:MM)"
+    },
+    "image_url": {
+      "type": "string",
+      "title": "Image URL"
+    },
+    "hashtags": {
+      "type": "string",
+      "title": "Hashtags"
+    },
+    "notes": {
+      "type": "string",
+      "title": "Internal Notes"
+    }
+  },
+  "required": [
+    "workspace_id",
+    "title",
+    "platforms",
+    "status"
+  ],
+  "row_level_security": {
+    "rules": [
+      {
+        "allow": [
+          "super_admin",
+          "internal_admin"
+        ],
+        "if": {}
+      },
+      {
+        "allow": [
+          "workspace_owner",
+          "workspace_admin",
+          "workspace_manager",
+          "workspace_member"
+        ],
+        "if": {
+          "workspace_id": "current_workspace_id"
+        }
+      }
+    ]
+  }
+}

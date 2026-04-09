@@ -1,0 +1,115 @@
+{
+  "name": "AIAnalysisReport",
+  "type": "object",
+  "properties": {
+    "workspace_id": {
+      "type": "string",
+      "title": "Workspace ID"
+    },
+    "analysis_date": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Analysis Date"
+    },
+    "period_type": {
+      "type": "string",
+      "enum": [
+        "daily",
+        "weekly",
+        "custom"
+      ],
+      "title": "Period Type"
+    },
+    "total_spent": {
+      "type": "number",
+      "title": "Total Spent"
+    },
+    "total_leads": {
+      "type": "number",
+      "title": "Total Leads"
+    },
+    "avg_cpl": {
+      "type": "number",
+      "title": "Average CPL"
+    },
+    "avg_ctr": {
+      "type": "number",
+      "title": "Average CTR %"
+    },
+    "avg_frequency": {
+      "type": "number",
+      "title": "Average Frequency"
+    },
+    "account_status": {
+      "type": "string",
+      "enum": [
+        "healthy",
+        "warning",
+        "critical"
+      ],
+      "title": "Account Status"
+    },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "title": "Identified Issues"
+    },
+    "recommendations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "title": "AI Recommendations"
+    },
+    "best_campaign": {
+      "type": "string",
+      "title": "Best Performing Campaign"
+    },
+    "best_segment": {
+      "type": "string",
+      "title": "Best Segment (Age/Gender)"
+    },
+    "best_placement": {
+      "type": "string",
+      "title": "Best Placement"
+    },
+    "summary": {
+      "type": "string",
+      "title": "Executive Summary"
+    },
+    "detailed_metrics": {
+      "type": "object",
+      "title": "Detailed Metrics"
+    }
+  },
+  "required": [
+    "workspace_id",
+    "analysis_date",
+    "period_type",
+    "account_status"
+  ],
+  "row_level_security": {
+    "rules": [
+      {
+        "allow": [
+          "super_admin",
+          "internal_admin"
+        ],
+        "if": {}
+      },
+      {
+        "allow": [
+          "workspace_owner",
+          "workspace_admin",
+          "workspace_manager",
+          "workspace_member"
+        ],
+        "if": {
+          "workspace_id": "current_workspace_id"
+        }
+      }
+    ]
+  }
+}
