@@ -62,45 +62,56 @@ export default function CreateWorkspaceWizardExtended({ onClose, onCreated }) {
     }
     setSaving(true);
     try {
-      const slug = formData.name.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
-      const workspace = await base44.entities.Workspace.create({
-        ...formData,
-        slug,
-        status: "onboarding",
-        plan: "starter",
-        billing_status: "trial",
-      });
+      const slug = formData.name.toLowerCase()
+        .replace(/\s+/g, "-")
+        .replace(/[^a-z0-9-]/g, "") 
+        || ("ws-" + Date.now());
 
-      // Auto-create WorkspaceUser for current user
-      const user = await base44.auth.me();
-      await base44.entities.WorkspaceUser.create({
-        workspace_id: workspace.id,
-        user_email: user.email,
-        role: "workspace_owner",
+      const workspaceData = {
+        name: formData.name,
+        slug: slug,
+        owner_email: formData.owner_email,
+        industry: formData.industry,
+        monthly_budget: formData.monthly_budget,
+        notes: formData.notes,
         status: "active",
-      }).catch(() => {});
+        plan: "starter",
+      };
 
-      // Auto-create WorkspaceIntegration placeholders
-      const integrations = [
-        { type: "meta_ads", label: "Meta Ads" },
-        { type: "google_ads", label: "Google Ads" },
-        { type: "claude_ai", label: "Claude AI" },
-      ];
-      for (const integ of integrations) {
-        await base44.entities.WorkspaceIntegration.create({
+      console.log("Creating workspace:", workspaceData);
+      const workspace = await base44.entities.Workspace.create(workspaceData);
+
+      // Non-blocking sub-entities
+      try {
+        const user = await base44.auth.me();
+        await base44.entities.WorkspaceUser.create({
           workspace_id: workspace.id,
-          workspace_name: workspace.name,
-          type: integ.type,
-          label: integ.label,
-          status: "pending",
-        }).catch(() => {});
-      }
+          user_email: user.email,
+          role: "workspace_owner",
+          status: "active"
+        });
+      } catch (e1) { console.warn("WorkspaceUser failed:", e1); }
 
+      try {
+        const integrations = [{ type: "meta_ads", label: "Meta Ads" }, { type: "google_ads", label: "Google Ads" }];
+        for (const integ of integrations) {
+          await base44.entities.WorkspaceIntegration.create({
+            workspace_id: workspace.id,
+            workspace_name: workspace.name,
+            type: integ.type,
+            label: integ.label,
+            status: "pending"
+          });
+        }
+      } catch (e2) { console.warn("Integrations failed:", e2); }
+
+      alert("🎉 Workspace created successfully!");
       setSaving(false);
       onCreated();
       onClose();
     } catch (e) {
-      console.error(e);
+      console.error("CREATE ERROR:", e);
+      alert("Error: " + (e.message || JSON.stringify(e)));
       setSaving(false);
     }
   };
